@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function Header() {
@@ -11,9 +12,19 @@ export function Header() {
           <span className="text-2xl font-bold text-primary">senjin</span>
         </Link>
 
-        <Button variant="outline" asChild>
-          <Link href="/login">ログイン</Link>
-        </Button>
+        <div className="flex items-center space-x-4">
+          <Link
+            href="/courage-book"
+            className="flex items-center space-x-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            <BookOpen className="w-4 h-4" />
+            <span className="hidden sm:inline">勇気ブック</span>
+          </Link>
+
+          <Button variant="outline" asChild>
+            <Link href="/login">ログイン</Link>
+          </Button>
+        </div>
       </div>
     </header>
   )

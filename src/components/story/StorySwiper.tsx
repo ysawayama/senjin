@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import type { Story } from '@/lib/data/mock'
+import { CommentModal } from '@/components/comment/CommentModal'
 
 type StorySwiperProps = {
   story: Story
@@ -12,6 +14,9 @@ type StorySwiperProps = {
 
 export function StorySwiper({ story, onComplete }: StorySwiperProps) {
   const [currentPage, setCurrentPage] = useState(0)
+  const [saved, setSaved] = useState(false)
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
+  const router = useRouter()
 
   // ページ構成
   const pages = [
@@ -59,10 +64,30 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
     }
   }
 
+  const handleSave = () => {
+    // TODO: 実際のAPI接続時にSupabaseに保存
+    setSaved(true)
+    setTimeout(() => {
+      router.push('/courage-book')
+    }, 800)
+  }
+
+  const handleComment = () => {
+    setIsCommentModalOpen(true)
+  }
+
   const currentPageData = pages[currentPage]
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] flex-col">
+    <>
+      <CommentModal
+        isOpen={isCommentModalOpen}
+        onClose={() => setIsCommentModalOpen(false)}
+        storyId={story.id}
+        senjinName={story.senjinName}
+      />
+
+      <div className="flex min-h-[calc(100vh-4rem)] flex-col">
       {/* ページインジケーター */}
       <div className="flex justify-center space-x-2 py-4">
         {pages.map((_, index) => (
@@ -141,10 +166,23 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
                   心に響きましたか？
                 </p>
                 <div className="space-y-4">
-                  <button className="w-full rounded-xl bg-accent px-6 py-4 font-semibold text-accent-foreground transition-all hover:opacity-90">
-                    📖 勇気ブックに保存
-                  </button>
-                  <button className="w-full rounded-xl border border-border bg-card px-6 py-4 font-semibold text-foreground transition-all hover:bg-muted">
+                  <motion.button
+                    onClick={handleSave}
+                    disabled={saved}
+                    whileHover={{ scale: saved ? 1 : 1.02 }}
+                    whileTap={{ scale: saved ? 1 : 0.98 }}
+                    className={`w-full rounded-xl px-6 py-4 font-semibold transition-all ${
+                      saved
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-accent text-accent-foreground hover:opacity-90'
+                    }`}
+                  >
+                    {saved ? '✓ 保存しました！' : '📖 勇気ブックに保存'}
+                  </motion.button>
+                  <button
+                    onClick={handleComment}
+                    className="w-full rounded-xl border border-border bg-card px-6 py-4 font-semibold text-foreground transition-all hover:bg-muted"
+                  >
                     💬 コメントを残す
                   </button>
                 </div>
@@ -168,5 +206,6 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
         </button>
       </div>
     </div>
+    </>
   )
 }

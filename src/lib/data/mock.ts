@@ -33,6 +33,13 @@ export type Comment = {
   createdAt: string
 }
 
+export type CourageBook = {
+  id: string
+  userId: string
+  storyId: string
+  createdAt: string
+}
+
 export const categories: Category[] = [
   {
     id: '1',
@@ -173,6 +180,28 @@ export const comments: Comment[] = [
   },
 ]
 
+// モックの勇気ブック（保存されたストーリー）
+export const courageBooks: CourageBook[] = [
+  {
+    id: '1',
+    userId: 'mock-user-1',
+    storyId: '1',
+    createdAt: '2025-11-10T08:00:00Z',
+  },
+  {
+    id: '2',
+    userId: 'mock-user-1',
+    storyId: '3',
+    createdAt: '2025-11-11T14:30:00Z',
+  },
+  {
+    id: '3',
+    userId: 'mock-user-1',
+    storyId: '5',
+    createdAt: '2025-11-12T19:00:00Z',
+  },
+]
+
 // ヘルパー関数
 export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((c) => c.slug === slug)
@@ -188,4 +217,16 @@ export function getStoryById(id: string): Story | undefined {
 
 export function getCommentsByStoryId(storyId: string): Comment[] {
   return comments.filter((c) => c.storyId === storyId)
+}
+
+export function getCourageBooksByUserId(userId: string): CourageBook[] {
+  return courageBooks.filter((cb) => cb.userId === userId)
+}
+
+export function getCourageBookWithStory(userId: string) {
+  const userBooks = getCourageBooksByUserId(userId)
+  return userBooks.map((book) => ({
+    ...book,
+    story: getStoryById(book.storyId),
+  }))
 }
