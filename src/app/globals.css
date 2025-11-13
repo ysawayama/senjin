@@ -6,42 +6,42 @@
 
 @layer base {
   :root {
-    /* senjin カラーパレット */
-    --background: 255 251 240; /* #FFFBF0 温かみのあるオフホワイト */
-    --foreground: 45 55 72; /* #2D3748 */
+    /* senjin カラーパレット - 洗練されたモノクローム */
+    --background: 250 250 250; /* #FAFAFA ほぼ白 */
+    --foreground: 20 20 20; /* #141414 濃い黒 */
 
     --card: 255 255 255;
-    --card-foreground: 45 55 72;
+    --card-foreground: 20 20 20;
 
     --popover: 255 255 255;
-    --popover-foreground: 45 55 72;
+    --popover-foreground: 20 20 20;
 
-    --primary: 74 85 104; /* #4A5568 */
+    --primary: 30 30 30; /* #1E1E1E より濃い黒 */
     --primary-foreground: 255 255 255;
 
-    --secondary: 215 20 65;
-    --secondary-foreground: 0 0 0;
+    --secondary: 100 100 100;
+    --secondary-foreground: 255 255 255;
 
-    --muted: 210 40 96;
-    --muted-foreground: 215 16 47;
+    --muted: 245 245 245;
+    --muted-foreground: 115 115 115;
 
-    --accent: 246 173 85; /* #F6AD55 */
-    --accent-foreground: 45 55 72;
+    --accent: 40 40 40; /* #282828 ダークグレー */
+    --accent-foreground: 255 255 255;
 
-    --destructive: 0 84 60;
-    --destructive-foreground: 0 0 98;
+    --destructive: 220 38 38;
+    --destructive-foreground: 255 255 255;
 
-    --border: 214 32 91;
-    --input: 214 32 91;
-    --ring: 215 25 27;
+    --border: 230 230 230;
+    --input: 230 230 230;
+    --ring: 20 20 20;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    /* カテゴリーカラー */
-    --category-path: 102 126 234; /* #667EEA 進路 */
-    --category-job: 246 173 85; /* #F6AD55 転職 */
-    --category-hunting: 72 187 120; /* #48BB78 就活 */
-    --category-desperate: 252 129 129; /* #FC8181 困難 */
+    /* カテゴリーカラー - より控えめに */
+    --category-path: 60 60 60;
+    --category-job: 80 80 80;
+    --category-hunting: 100 100 100;
+    --category-desperate: 50 50 50;
 
     --font-sans: 'M PLUS Rounded 1c', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
@@ -57,6 +57,7 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.02em;
   }
 }
 
@@ -65,15 +66,43 @@
     text-wrap: balance;
   }
 
+  /* 大胆なタイポグラフィ */
+  .text-hero {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
   .text-catchphrase {
-    font-size: 18px;
-    line-height: 1.6;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    line-height: 1.5;
     font-weight: 600;
+    letter-spacing: 0.01em;
   }
 
   .text-story {
-    font-size: 17px;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
     line-height: 2.0;
     font-weight: 400;
+    letter-spacing: 0.03em;
+  }
+
+  .text-section-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* 余白のユーティリティ */
+  .section-spacing {
+    padding-top: clamp(4rem, 10vw, 8rem);
+    padding-bottom: clamp(4rem, 10vw, 8rem);
+  }
+
+  .content-spacing {
+    padding-top: clamp(2rem, 5vw, 4rem);
+    padding-bottom: clamp(2rem, 5vw, 4rem);
   }
 }
