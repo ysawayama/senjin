@@ -116,7 +116,7 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
             className="flex h-full items-center justify-center px-6"
           >
             {/* 導入ページ */}
-            {currentPageData.type === 'intro' && (
+            {currentPageData.type === 'intro' && currentPageData.content && typeof currentPageData.content !== 'string' && (
               <div className="max-w-md text-center">
                 <p className="mb-2 text-sm font-medium text-primary">
                   {currentPageData.content.name}
@@ -134,19 +134,21 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
             {/* 本文ページ */}
             {(currentPageData.type === 'context' ||
               currentPageData.type === 'emotion' ||
-              currentPageData.type === 'decision') && (
-              <div className="max-w-md">
-                <h3 className="mb-6 text-center text-lg font-bold text-primary">
-                  {currentPageData.title}
-                </h3>
-                <p className="text-story whitespace-pre-wrap text-foreground">
-                  {currentPageData.content}
-                </p>
-              </div>
-            )}
+              currentPageData.type === 'decision') &&
+              currentPageData.content &&
+              typeof currentPageData.content === 'string' && (
+                <div className="max-w-md">
+                  <h3 className="mb-6 text-center text-lg font-bold text-primary">
+                    {currentPageData.title}
+                  </h3>
+                  <p className="text-story whitespace-pre-wrap text-foreground">
+                    {currentPageData.content}
+                  </p>
+                </div>
+              )}
 
             {/* ひとことページ */}
-            {currentPageData.type === 'final' && (
+            {currentPageData.type === 'final' && currentPageData.content && typeof currentPageData.content === 'string' && (
               <div className="max-w-md text-center">
                 <p className="text-story mb-8 whitespace-pre-wrap text-foreground">
                   {currentPageData.content}

@@ -1,96 +1,62 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
-:root {
-  /* senjin カラーパレット */
-  --background: 255 251 240; /* #FFFBF0 温かみのあるオフホワイト */
-  --foreground: 45 55 72; /* #2D3748 */
-
-  --card: 255 255 255;
-  --card-foreground: 45 55 72;
-
-  --popover: 255 255 255;
-  --popover-foreground: 45 55 72;
-
-  --primary: 74 85 104; /* #4A5568 */
-  --primary-foreground: 255 255 255;
-
-  --secondary: 215 20 65;
-  --secondary-foreground: 0 0 0;
-
-  --muted: 210 40 96;
-  --muted-foreground: 215 16 47;
-
-  --accent: 246 173 85; /* #F6AD55 */
-  --accent-foreground: 45 55 72;
-
-  --destructive: 0 84 60;
-  --destructive-foreground: 0 0 98;
-
-  --border: 214 32 91;
-  --input: 214 32 91;
-  --ring: 215 25 27;
-
-  --radius: 0.5rem;
-
-  /* カテゴリーカラー */
-  --category-path: 102 126 234; /* #667EEA 進路 */
-  --category-job: 246 173 85; /* #F6AD55 転職 */
-  --category-hunting: 72 187 120; /* #48BB78 就活 */
-  --category-desperate: 252 129 129; /* #FC8181 困難 */
-}
-
-@theme inline {
-  --color-background: rgb(var(--background));
-  --color-foreground: rgb(var(--foreground));
-
-  --color-card: rgb(var(--card));
-  --color-card-foreground: rgb(var(--card-foreground));
-
-  --color-popover: rgb(var(--popover));
-  --color-popover-foreground: rgb(var(--popover-foreground));
-
-  --color-primary: rgb(var(--primary));
-  --color-primary-foreground: rgb(var(--primary-foreground));
-
-  --color-secondary: rgb(var(--secondary));
-  --color-secondary-foreground: rgb(var(--secondary-foreground));
-
-  --color-muted: rgb(var(--muted));
-  --color-muted-foreground: rgb(var(--muted-foreground));
-
-  --color-accent: rgb(var(--accent));
-  --color-accent-foreground: rgb(var(--accent-foreground));
-
-  --color-destructive: rgb(var(--destructive));
-  --color-destructive-foreground: rgb(var(--destructive-foreground));
-
-  --color-border: rgb(var(--border));
-  --color-input: rgb(var(--input));
-  --color-ring: rgb(var(--ring));
-
-  /* カテゴリーカラー */
-  --color-category-path: rgb(var(--category-path));
-  --color-category-job: rgb(var(--category-job));
-  --color-category-hunting: rgb(var(--category-hunting));
-  --color-category-desperate: rgb(var(--category-desperate));
-
-  --font-sans: 'M PLUS Rounded 1c', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-}
-
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
-  font-feature-settings: "rlig" 1, "calt" 1;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
+  :root {
+    /* senjin カラーパレット */
+    --background: 255 251 240; /* #FFFBF0 温かみのあるオフホワイト */
+    --foreground: 45 55 72; /* #2D3748 */
+
+    --card: 255 255 255;
+    --card-foreground: 45 55 72;
+
+    --popover: 255 255 255;
+    --popover-foreground: 45 55 72;
+
+    --primary: 74 85 104; /* #4A5568 */
+    --primary-foreground: 255 255 255;
+
+    --secondary: 215 20 65;
+    --secondary-foreground: 0 0 0;
+
+    --muted: 210 40 96;
+    --muted-foreground: 215 16 47;
+
+    --accent: 246 173 85; /* #F6AD55 */
+    --accent-foreground: 45 55 72;
+
+    --destructive: 0 84 60;
+    --destructive-foreground: 0 0 98;
+
+    --border: 214 32 91;
+    --input: 214 32 91;
+    --ring: 215 25 27;
+
+    --radius: 0.5rem;
+
+    /* カテゴリーカラー */
+    --category-path: 102 126 234; /* #667EEA 進路 */
+    --category-job: 246 173 85; /* #F6AD55 転職 */
+    --category-hunting: 72 187 120; /* #48BB78 就活 */
+    --category-desperate: 252 129 129; /* #FC8181 困難 */
+
+    --font-sans: 'M PLUS Rounded 1c', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  }
+
   * {
-    border-color: var(--color-border);
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
