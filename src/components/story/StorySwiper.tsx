@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import type { Story } from '@/lib/data/mock'
+import { getCommentsByStoryId } from '@/lib/data/mock'
 import { CommentModal } from '@/components/comment/CommentModal'
 
 type StorySwiperProps = {
@@ -17,6 +18,9 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
   const [saved, setSaved] = useState(false)
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
   const router = useRouter()
+
+  // コメントを取得
+  const storyComments = getCommentsByStoryId(story.id)
 
   // ページ構成
   const pages = [
@@ -104,8 +108,8 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
         ))}
       </div>
 
-      {/* ページコンテンツ */}
-      <div className="flex-1">
+      {/* ページコンテンツとボタン */}
+      <div className="flex flex-1 items-center justify-center px-6 py-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
@@ -113,7 +117,7 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full items-center justify-center px-6"
+            className="flex flex-col items-center"
           >
             {/* 導入ページ */}
             {currentPageData.type === 'intro' && currentPageData.content && typeof currentPageData.content !== 'string' && (
@@ -161,51 +165,85 @@ export function StorySwiper({ story, onComplete }: StorySwiperProps) {
 
             {/* アクションページ */}
             {currentPageData.type === 'action' && (
-              <div className="max-w-md text-center">
-                <p className="mb-8 text-lg text-foreground">
-                  この声は、あなたの
-                  <br />
-                  心に響きましたか？
-                </p>
-                <div className="space-y-4">
-                  <motion.button
-                    onClick={handleSave}
-                    disabled={saved}
-                    whileHover={{ scale: saved ? 1 : 1.02 }}
-                    whileTap={{ scale: saved ? 1 : 0.98 }}
-                    className={`w-full rounded-xl px-6 py-4 font-semibold transition-all ${
-                      saved
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-accent text-accent-foreground hover:opacity-90'
-                    }`}
-                  >
-                    {saved ? '✓ 保存しました！' : '📖 勇気ブックに保存'}
-                  </motion.button>
-                  <button
-                    onClick={handleComment}
-                    className="w-full rounded-xl border border-border bg-card px-6 py-4 font-semibold text-foreground transition-all hover:bg-muted"
-                  >
-                    💬 コメントを残す
-                  </button>
+              <div className="w-full max-w-md">
+                <div className="text-center">
+                  <p className="mb-8 text-lg text-foreground">
+                    この声は、あなたの
+                    <br />
+                    心に響きましたか？
+                  </p>
+                  <div className="space-y-4">
+                    <motion.button
+                      onClick={handleSave}
+                      disabled={saved}
+                      whileHover={{ scale: saved ? 1 : 1.02 }}
+                      whileTap={{ scale: saved ? 1 : 0.98 }}
+                      className={`w-full rounded-xl px-6 py-4 font-semibold transition-all ${
+                        saved
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-accent text-accent-foreground hover:opacity-90'
+                      }`}
+                    >
+                      {saved ? '✓ 保存しました！' : '📖 勇気ブックに保存'}
+                    </motion.button>
+                    <button
+                      onClick={handleComment}
+                      className="w-full rounded-xl border border-border bg-card px-6 py-4 font-semibold text-foreground transition-all hover:bg-muted"
+                    >
+                      💬 コメントを残す
+                    </button>
+                  </div>
                 </div>
+
+                {/* コメント一覧 */}
+                {storyComments.length > 0 && (
+                  <div className="mt-8 space-y-4">
+                    <h3 className="text-sm font-semibold text-muted-foreground">
+                      みんなのコメント ({storyComments.length})
+                    </h3>
+                    <div className="space-y-3">
+                      {storyComments.map((comment) => (
+                        <div
+                          key={comment.id}
+                          className="rounded-lg border border-border bg-card p-4 text-left"
+                        >
+                          <div className="mb-2 flex items-center justify-between">
+                            <span className="text-sm font-medium text-foreground">
+                              {comment.userName}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(comment.createdAt).toLocaleDateString('ja-JP', {
+                                month: 'short',
+                                day: 'numeric',
+                              })}
+                            </span>
+                          </div>
+                          <p className="text-sm leading-relaxed text-foreground">
+                            {comment.content}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
+
+            {/* 次へボタン - コンテンツのすぐ下に配置 */}
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={handleNext}
+                className="flex flex-col items-center space-y-1 text-muted-foreground transition-colors hover:text-primary"
+                aria-label="次のページへ"
+              >
+                <ChevronDown className="h-6 w-6 animate-bounce" />
+                <span className="text-xs">
+                  {currentPage < pages.length - 1 ? '次へ' : '完了'}
+                </span>
+              </button>
+            </div>
           </motion.div>
         </AnimatePresence>
-      </div>
-
-      {/* 次へボタン */}
-      <div className="flex justify-center pb-8">
-        <button
-          onClick={handleNext}
-          className="flex flex-col items-center space-y-1 text-muted-foreground transition-colors hover:text-primary"
-          aria-label="次のページへ"
-        >
-          <ChevronDown className="h-6 w-6 animate-bounce" />
-          <span className="text-xs">
-            {currentPage < pages.length - 1 ? '次へ' : '完了'}
-          </span>
-        </button>
       </div>
     </div>
     </>
